@@ -71,7 +71,8 @@
 
 ## 🌐 GitHub Pages で公開
 
-このアプリは GitHub Pages でホスティングされています。
+このアプリは GitHub Pages でホスティングされています。  
+👉 **https://yuzuafro.github.io/meeting-typing/**
 
 ### 自分でデプロイする場合
 
