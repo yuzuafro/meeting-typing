@@ -65,6 +65,27 @@
     updateThemeIcon();
   });
 
+  // 難易度カードの説明文（モード別）
+  const CARD_DESCS = {
+    audio: {
+      easy:   "短い定型フレーズ<br>ゆっくり読み上げ・60秒",
+      medium: "業務文・議題説明<br>普通の速度・90秒",
+      hard:   "長文・専門用語<br>速い読み上げ・120秒"
+    },
+    text: {
+      easy:   "短い定型フレーズ<br>制限時間：40秒",
+      medium: "業務文・議題説明<br>制限時間：60秒",
+      hard:   "長文・専門用語<br>制限時間：90秒"
+    }
+  };
+
+  function updateCardDescs(mode) {
+    document.querySelectorAll(".card[data-level]").forEach((card) => {
+      const descEl = card.querySelector(".card-desc");
+      if (descEl) descEl.innerHTML = CARD_DESCS[mode][card.dataset.level];
+    });
+  }
+
   // ===== モード選択タブ =====
   document.querySelectorAll(".mode-tab").forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -72,10 +93,14 @@
       tab.classList.add("active");
       state.currentMode = tab.dataset.mode;
       $("#mode-desc").textContent = state.currentMode === "audio"
-        ? "音声を聞いて、入力しよう"
-        : "画面の文字を見て、入力しよう";
+        ? "音声を聞いて、聞き取った内容を入力しよう"
+        : "画面の文字を素早く正確に入力しよう";
+      updateCardDescs(state.currentMode);
     });
   });
+
+  // 初期カード説明文を適用
+  updateCardDescs(state.currentMode);
 
   // ===== 難易度選択 =====
   document.querySelectorAll(".card[data-level]").forEach((card) => {
