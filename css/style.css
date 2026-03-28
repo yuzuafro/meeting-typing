@@ -520,3 +520,29 @@ textarea:focus {
     font-size: 1.4rem;
   }
 }
+
+/* ===== ダークモード ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f172a;
+    --color-surface: #1e293b;
+    --color-text: #f1f5f9;
+    --color-text-light: #94a3b8;
+    --color-border: #334155;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
+  textarea {
+    background: #1e293b;
+    color: #f1f5f9;
+  }
+
+  .card:hover {
+    background: #263448;
+  }
+
+  .btn-outline {
+    color: #f1f5f9;
+  }
+}

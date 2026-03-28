@@ -43,7 +43,9 @@
 
   function startGame(level) {
     state.currentLevel = level;
-    state.questions = [...QUESTIONS[level]];
+    // Fisher-Yates shuffle then pick 5
+    const shuffled = [...QUESTIONS[level]].sort(() => Math.random() - 0.5);
+    state.questions = shuffled.slice(0, 5);
     state.currentIndex = 0;
     state.results = [];
     showScreen("game");

@@ -3,6 +3,13 @@
  */
 
 /**
+ * 採点用に句読点・記号を除去して正規化する
+ */
+function normalizePunctuation(text) {
+  return text.replace(/[、。！？・…「」『』【】（）()!?,.]/g, "").trim();
+}
+
+/**
  * Levenshtein距離を計算する
  */
 function levenshteinDistance(a, b) {
@@ -33,11 +40,13 @@ function levenshteinDistance(a, b) {
  * 正確さスコアを計算する（0〜100）
  */
 function calculateAccuracy(correct, input) {
-  if (correct.length === 0 && input.length === 0) return 100;
-  if (correct.length === 0) return 0;
+  const normCorrect = normalizePunctuation(correct);
+  const normInput = normalizePunctuation(input);
+  if (normCorrect.length === 0 && normInput.length === 0) return 100;
+  if (normCorrect.length === 0) return 0;
 
-  const distance = levenshteinDistance(correct, input);
-  const maxLen = Math.max(correct.length, input.length);
+  const distance = levenshteinDistance(normCorrect, normInput);
+  const maxLen = Math.max(normCorrect.length, normInput.length);
   const accuracy = Math.max(0, (1 - distance / maxLen)) * 100;
   return Math.round(accuracy);
 }
