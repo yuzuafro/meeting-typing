@@ -47,6 +47,7 @@ body {
 }
 
 header {
+  position: relative;
   text-align: center;
   margin-bottom: 32px;
 }
@@ -205,7 +206,7 @@ header h1 {
 }
 
 .badge-easy { background: var(--color-easy); }
-.badge-medium { background: var(--color-medium); color: var(--color-text); }
+.badge-medium { background: var(--color-medium); color: #1e293b; }
 .badge-hard { background: var(--color-hard); }
 
 .play-area {
@@ -521,9 +522,40 @@ textarea:focus {
   }
 }
 
+/* ===== テーマ切り替えボタン ===== */
+.theme-toggle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: transparent;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  transition: all var(--transition);
+  color: var(--color-text);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-text-light);
+  background: var(--color-surface);
+}
+
+/* ===== 結果画面の満点表示 ===== */
+.result-max-score {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
 /* ===== ダークモード ===== */
+/* システム設定に追従（手動でライトモードを選んでいない場合） */
 @media (prefers-color-scheme: dark) {
-  :root {
+  html:not([data-theme="light"]) {
     --color-bg: #0f172a;
     --color-surface: #1e293b;
     --color-text: #f1f5f9;
@@ -533,16 +565,40 @@ textarea:focus {
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
   }
 
-  textarea {
+  html:not([data-theme="light"]) textarea {
     background: #1e293b;
     color: #f1f5f9;
   }
 
-  .card:hover {
+  html:not([data-theme="light"]) .card:hover {
     background: #263448;
   }
 
-  .btn-outline {
+  html:not([data-theme="light"]) .btn-outline {
     color: #f1f5f9;
   }
+}
+
+/* 手動でダークモードを選んだ場合 */
+html[data-theme="dark"] {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-text: #f1f5f9;
+  --color-text-light: #94a3b8;
+  --color-border: #334155;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] textarea {
+  background: #1e293b;
+  color: #f1f5f9;
+}
+
+html[data-theme="dark"] .card:hover {
+  background: #263448;
+}
+
+html[data-theme="dark"] .btn-outline {
+  color: #f1f5f9;
 }

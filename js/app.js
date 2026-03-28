@@ -33,6 +33,30 @@
     screens[name].classList.add("active");
   }
 
+  // ===== テーマ切り替え =====
+  (function initTheme() {
+    const saved = localStorage.getItem("theme");
+    if (saved) document.documentElement.dataset.theme = saved;
+    updateThemeIcon();
+  })();
+
+  function updateThemeIcon() {
+    const theme = document.documentElement.dataset.theme;
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = theme === "dark" || (!theme && systemDark);
+    $("#btn-theme").textContent = isDark ? "☀️" : "🌙";
+  }
+
+  $("#btn-theme").addEventListener("click", () => {
+    const current = document.documentElement.dataset.theme;
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = current === "dark" || (!current && systemDark);
+    const next = isDark ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+    updateThemeIcon();
+  });
+
   // ===== 難易度選択 =====
   document.querySelectorAll(".card[data-level]").forEach((card) => {
     card.addEventListener("click", () => {
@@ -166,7 +190,9 @@
   function showResult(score, diff, correct, input) {
     showScreen("result");
 
+    const maxScore = 120;
     $("#score-value").textContent = score.total;
+    $("#result-max-score").textContent = `${maxScore}点満点`;
     $("#accuracy-score").textContent = score.accuracy;
     $("#time-bonus").textContent = `+${score.timeBonus}`;
 
