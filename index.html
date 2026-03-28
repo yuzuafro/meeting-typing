@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>議事録タイピング練習</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📝 議事録タイピング練習</h1>
+      <p class="subtitle">音声を聞いて、正確にタイピングしよう！</p>
+    </header>
+
+    <!-- 難易度選択画面 -->
+    <section id="screen-select" class="screen active">
+      <h2>難易度を選んでください</h2>
+      <div class="difficulty-cards">
+        <button class="card card-easy" data-level="easy">
+          <span class="card-emoji">🟢</span>
+          <span class="card-title">初級</span>
+          <span class="card-desc">短い定型フレーズ<br>ゆっくり読み上げ</span>
+        </button>
+        <button class="card card-medium" data-level="medium">
+          <span class="card-emoji">🟡</span>
+          <span class="card-title">中級</span>
+          <span class="card-desc">業務文・議題説明<br>普通の速度</span>
+        </button>
+        <button class="card card-hard" data-level="hard">
+          <span class="card-emoji">🔴</span>
+          <span class="card-title">上級</span>
+          <span class="card-desc">長文・専門用語<br>速い読み上げ</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ゲーム画面 -->
+    <section id="screen-game" class="screen">
+      <div class="game-header">
+        <div class="game-info">
+          <span id="level-badge" class="badge">初級</span>
+          <span id="question-counter">問題 1 / 10</span>
+        </div>
+        <button id="btn-back" class="btn btn-small btn-outline">戻る</button>
+      </div>
+
+      <div class="play-area">
+        <div class="play-controls">
+          <button id="btn-play" class="btn btn-primary btn-large">
+            🔊 音声を再生
+          </button>
+          <span id="play-count" class="play-count">残り再生回数: 3</span>
+        </div>
+        <div id="timer-display" class="timer">⏱ 00:00</div>
+      </div>
+
+      <div class="input-area">
+        <textarea id="user-input" placeholder="聞こえた内容をここに入力してください..." rows="4"></textarea>
+        <button id="btn-submit" class="btn btn-accent btn-large" disabled>📝 採点する</button>
+      </div>
+    </section>
+
+    <!-- 1問ごとの結果画面 -->
+    <section id="screen-result" class="screen">
+      <h2>採点結果</h2>
+      <div class="score-display">
+        <div class="score-circle">
+          <span id="score-value" class="score-number">0</span>
+          <span class="score-label">点</span>
+        </div>
+      </div>
+      <div class="score-breakdown">
+        <div class="score-item">
+          <span class="score-item-label">正確さ</span>
+          <span id="accuracy-score" class="score-item-value">0</span>
+        </div>
+        <div class="score-item">
+          <span class="score-item-label">時間ボーナス</span>
+          <span id="time-bonus" class="score-item-value">+0</span>
+        </div>
+      </div>
+      <div class="diff-area">
+        <h3>比較</h3>
+        <div class="diff-row">
+          <span class="diff-label">正解:</span>
+          <div id="correct-text" class="diff-text"></div>
+        </div>
+        <div class="diff-row">
+          <span class="diff-label">入力:</span>
+          <div id="user-text" class="diff-text"></div>
+        </div>
+      </div>
+      <button id="btn-next" class="btn btn-primary btn-large">次の問題へ ➡</button>
+    </section>
+
+    <!-- 最終結果画面 -->
+    <section id="screen-summary" class="screen">
+      <h2>🎉 結果サマリー</h2>
+      <div class="summary-score">
+        <div class="score-circle score-circle-large">
+          <span id="total-score" class="score-number">0</span>
+          <span class="score-label">点</span>
+        </div>
+        <p id="total-max" class="summary-max"></p>
+      </div>
+      <div class="summary-stats">
+        <div class="stat">
+          <span class="stat-label">平均正確さ</span>
+          <span id="avg-accuracy" class="stat-value">0%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">最高スコア</span>
+          <span id="best-score" class="stat-value">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">問題数</span>
+          <span id="total-questions" class="stat-value">0</span>
+        </div>
+      </div>
+      <div id="summary-details" class="summary-details"></div>
+      <button id="btn-retry" class="btn btn-primary btn-large">🔄 もう一度挑戦</button>
+    </section>
+  </div>
+
+  <script src="js/questions.js"></script>
+  <script src="js/scoring.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
