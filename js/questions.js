@@ -48,11 +48,18 @@ const SPEECH_RATES = {
   hard: 1.3
 };
 
-// 難易度別の制限時間（秒）
+// 難易度別の制限時間（秒）- 音声モード
 const TIME_LIMITS = {
   easy: 60,
   medium: 90,
   hard: 120
+};
+
+// 難易度別の制限時間（秒）- 文字モード（音声より短め）
+const TEXT_TIME_LIMITS = {
+  easy: 40,
+  medium: 60,
+  hard: 90
 };
 
 // 難易度の表示名

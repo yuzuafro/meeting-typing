@@ -7,15 +7,16 @@
   // ===== 状態管理 =====
   const state = {
     currentLevel: null,    // "easy" | "medium" | "hard"
-    questions: [],         // 現在の難易度の問題リスト
-    currentIndex: 0,       // 現在の問題インデックス
-    playCount: 0,          // 再生した回数
-    maxPlays: 3,           // 最大再生回数
-    timerInterval: null,   // タイマーのinterval ID
-    startTime: null,       // 入力開始時刻
-    elapsedSeconds: 0,     // 経過時間
-    isSpeaking: false,     // 音声再生中フラグ
-    results: []            // 各問題の結果 [{ score, accuracy, timeBonus, correct, input }]
+    currentMode: "audio",  // "audio" | "text"
+    questions: [],
+    currentIndex: 0,
+    playCount: 0,
+    maxPlays: 3,
+    timerInterval: null,
+    startTime: null,
+    elapsedSeconds: 0,
+    isSpeaking: false,
+    results: []
   };
 
   // ===== DOM要素 =====
@@ -57,17 +58,28 @@
     updateThemeIcon();
   });
 
-  // ===== 難易度選択 =====
-  document.querySelectorAll(".card[data-level]").forEach((card) => {
-    card.addEventListener("click", () => {
-      const level = card.dataset.level;
-      startGame(level);
+  // ===== モード選択タブ =====
+  document.querySelectorAll(".mode-tab").forEach((tab) => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".mode-tab").forEach((t) => t.classList.remove("active"));
+      tab.classList.add("active");
+      state.currentMode = tab.dataset.mode;
+      $("#mode-desc").textContent = state.currentMode === "audio"
+        ? "音声を聞いて、入力しよう"
+        : "画面の文字を見て、入力しよう";
     });
   });
 
-  function startGame(level) {
+  // ===== 難易度選択 =====
+  document.querySelectorAll(".card[data-level]").forEach((card) => {
+    card.addEventListener("click", () => {
+      startGame(card.dataset.level, state.currentMode);
+    });
+  });
+
+  function startGame(level, mode) {
     state.currentLevel = level;
-    // Fisher-Yates shuffle then pick 5
+    state.currentMode = mode;
     const shuffled = [...QUESTIONS[level]].sort(() => Math.random() - 0.5);
     state.questions = shuffled.slice(0, 5);
     state.currentIndex = 0;
@@ -84,18 +96,32 @@
     state.elapsedSeconds = 0;
     clearInterval(state.timerInterval);
 
-    // UI更新
+    // ヘッダー更新
     const levelBadge = $("#level-badge");
     levelBadge.textContent = LEVEL_NAMES[state.currentLevel];
     levelBadge.className = "badge badge-" + state.currentLevel;
+    $("#mode-badge").textContent = state.currentMode === "audio" ? "音声" : "文字";
     $("#question-counter").textContent = `問題 ${state.currentIndex + 1} / ${state.questions.length}`;
-    $("#play-count").textContent = `残り再生回数: ${state.maxPlays}`;
     $("#timer-display").textContent = "⏱ 00:00";
     $("#timer-display").classList.remove("warning");
     $("#user-input").value = "";
     $("#user-input").disabled = false;
-    $("#btn-play").disabled = false;
     $("#btn-submit").disabled = true;
+
+    if (state.currentMode === "audio") {
+      // 音声モード: 再生エリア表示、テキスト表示非表示
+      $("#text-display").style.display = "none";
+      $(".play-area").style.display = "";
+      $("#play-count").textContent = `残り再生回数: ${state.maxPlays}`;
+      $("#btn-play").disabled = false;
+    } else {
+      // 文字モード: テキスト表示、再生エリア非表示、即タイマー開始
+      $(".play-area").style.display = "none";
+      $("#text-display").style.display = "";
+      $("#question-text").textContent = q.text;
+      $("#user-input").placeholder = "上の文章を入力してください...";
+      startTimer();
+    }
   }
 
   // ===== 音声再生 =====
@@ -172,7 +198,9 @@
     clearInterval(state.timerInterval);
     const q = state.questions[state.currentIndex];
     const userInput = $("#user-input").value.trim();
-    const timeLimit = TIME_LIMITS[state.currentLevel];
+    const timeLimit = state.currentMode === "audio"
+      ? TIME_LIMITS[state.currentLevel]
+      : TEXT_TIME_LIMITS[state.currentLevel];
 
     const score = calculateScore(q.text, userInput, state.elapsedSeconds, timeLimit);
     const diff = generateDiff(q.text, userInput);
@@ -267,6 +295,10 @@
   $("#btn-back").addEventListener("click", () => {
     clearInterval(state.timerInterval);
     speechSynthesis.cancel();
+    $("#user-input").placeholder = "聞こえた内容をここに入力してください...";
+    // 表示をデフォルトに戻す
+    $(".play-area").style.display = "";
+    $("#text-display").style.display = "none";
     showScreen("select");
   });
 

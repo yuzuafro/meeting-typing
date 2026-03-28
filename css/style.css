@@ -78,6 +78,44 @@ header h1 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ===== 難易度選択画面 ===== */
+.mode-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 12px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: inherit;
+}
+
+.mode-tab:hover {
+  border-color: var(--color-primary);
+}
+
+.mode-tab.active {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: white;
+}
+
+.mode-desc {
+  text-align: center;
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
 /* ===== 難易度選択カード ===== */
 .difficulty-cards {
   display: grid;
@@ -209,6 +247,31 @@ header h1 {
 .badge-easy { background: var(--color-easy); }
 .badge-medium { background: var(--color-medium); color: #1e293b; }
 .badge-hard { background: var(--color-hard); }
+.badge-mode { background: #7c3aed; font-size: 0.75rem; padding: 3px 10px; }
+
+/* ===== 文字モード: テキスト表示エリア ===== */
+.text-display {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 24px 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.text-display-label {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  margin-bottom: 12px;
+}
+
+.question-text {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.9;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+}
 
 .play-area {
   display: flex;

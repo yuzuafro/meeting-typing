@@ -16,6 +16,11 @@
 
     <!-- 難易度選択画面 -->
     <section id="screen-select" class="screen active">
+      <div class="mode-tabs">
+        <button class="mode-tab active" data-mode="audio">🔊 音声モード</button>
+        <button class="mode-tab" data-mode="text">📖 文字モード</button>
+      </div>
+      <p class="mode-desc" id="mode-desc">音声を聞いて、入力しよう</p>
       <h2>難易度を選んでください</h2>
       <div class="difficulty-cards">
         <button class="card card-easy" data-level="easy">
@@ -41,11 +46,19 @@
       <div class="game-header">
         <div class="game-info">
           <span id="level-badge" class="badge">初級</span>
-          <span id="question-counter">問題 1 / 10</span>
+          <span id="mode-badge" class="badge badge-mode">音声</span>
+          <span id="question-counter">問題 1 / 5</span>
         </div>
         <button id="btn-back" class="btn btn-small btn-outline">戻る</button>
       </div>
 
+      <!-- 文字モード: テキスト表示エリア -->
+      <div id="text-display" class="text-display" style="display:none;">
+        <p class="text-display-label">次の文章を入力してください</p>
+        <div id="question-text" class="question-text"></div>
+      </div>
+
+      <!-- 音声モード: 再生コントロール -->
       <div class="play-area">
         <div class="play-controls">
           <button id="btn-play" class="btn btn-primary btn-large">
