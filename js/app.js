@@ -28,6 +28,13 @@
     summary: $("#screen-summary")
   };
 
+  // 問題テキストのコピー防止（右クリック・キーボードショートカット）
+  $("#question-text").addEventListener("contextmenu", (e) => e.preventDefault());
+  $("#question-text").addEventListener("copy", (e) => e.preventDefault());
+  $("#question-text").addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === "a") e.preventDefault();
+  });
+
   // ===== 画面切り替え =====
   function showScreen(name) {
     Object.values(screens).forEach((s) => s.classList.remove("active"));

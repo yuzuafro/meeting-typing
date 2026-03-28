@@ -271,6 +271,9 @@ header h1 {
   line-height: 1.9;
   letter-spacing: 0.02em;
   color: var(--color-text);
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
 }
 
 .play-area {
