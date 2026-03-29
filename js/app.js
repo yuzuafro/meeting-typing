@@ -213,10 +213,31 @@
     const timerEl = $("#timer-display");
     timerEl.textContent = display;
 
-    const timeLimit = TIME_LIMITS[state.currentLevel];
+    const timeLimit = state.currentMode === "audio"
+      ? TIME_LIMITS[state.currentLevel]
+      : TEXT_TIME_LIMITS[state.currentLevel];
+
     if (state.elapsedSeconds >= timeLimit) {
       timerEl.classList.add("warning");
+      // 文字モードは制限時間になったら自動採点
+      if (state.currentMode === "text") {
+        clearInterval(state.timerInterval);
+        autoSubmit();
+      }
     }
+  }
+
+  function autoSubmit() {
+    clearInterval(state.timerInterval);
+    $("#user-input").disabled = true;
+    $("#btn-submit").disabled = true;
+    const q = state.questions[state.currentIndex];
+    const userInput = $("#user-input").value.trim();
+    const timeLimit = TEXT_TIME_LIMITS[state.currentLevel];
+    const score = calculateScore(q.text, userInput, state.elapsedSeconds, timeLimit);
+    const diff = generateDiff(q.text, userInput);
+    state.results.push({ ...score, correct: q.text, input: userInput, elapsed: state.elapsedSeconds });
+    showResult(score, diff, q.text, userInput);
   }
 
   // ===== 入力監視 =====

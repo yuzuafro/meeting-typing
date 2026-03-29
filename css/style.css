@@ -310,6 +310,12 @@ header h1 {
   color: var(--color-wrong);
 }
 
+/* タイマーを play-area の外に出した際のスタイル */
+.timer-standalone {
+  text-align: right;
+  margin-bottom: 12px;
+}
+
 .input-area {
   display: flex;
   flex-direction: column;
@@ -572,6 +578,10 @@ textarea:focus {
   }
 
   .timer {
+    text-align: center;
+  }
+
+  .timer-standalone {
     text-align: center;
   }
 
